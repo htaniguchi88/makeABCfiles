@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-func newFile(fn string) *os.File {
+func getResourceFile(fn string) *os.File {
 	fp, err := os.OpenFile(fn, os.O_RDONLY, 0644)
 	if err != nil {
 		log.Fatal(err)
@@ -15,13 +15,8 @@ func newFile(fn string) *os.File {
 	return fp
 }
 
-func MakeFiles() {
-
-	fp := newFile("/Users/htaniguchi/code/AtCoder/ABC/ABC000/main.cpp")
-	defer fp.Close()
-
+func getStringArrayFromResourceFile(fp *os.File) []string {
 	var ret []string
-
 	scanner := bufio.NewScanner(fp)
 	for scanner.Scan() {
 		fmt.Println(scanner.Text())
@@ -30,6 +25,15 @@ func MakeFiles() {
 	if err := scanner.Err(); err != nil {
 		panic(err)
 	}
+	return ret
+}
+
+func MakeFiles() {
+
+	fp := getResourceFile("/Users/htaniguchi/code/AtCoder/ABC/ABC000/main.cpp")
+	defer fp.Close()
+
+	ret := getStringArrayFromResourceFile(fp)
 
 	fp, err := os.Create("abc156a.cpp")
 	if err != nil {
