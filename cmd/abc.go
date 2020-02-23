@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"atc/abcmap"
 	"bufio"
 	"fmt"
 	"log"
@@ -28,25 +29,31 @@ func getStringArrayFromResourceFile(fp *os.File) []string {
 	return ret
 }
 
-func MakeFiles() {
+func MakeFiles(contestnum string, alphabet string) {
 
 	fp := getResourceFile("/Users/htaniguchi/code/AtCoder/ABC/ABC000/main.cpp")
 	defer fp.Close()
 
 	ret := getStringArrayFromResourceFile(fp)
 
-	fp, err := os.Create("abc156a.cpp")
-	if err != nil {
-		fmt.Println(err)
-		return
+	alphabets := []string{"a", "b", "c", "d", "e", "f"}
+
+	for i := 0; i < abcmap.Abcmap[alphabet]; i++ {
+
+		fp, err := os.Create("abc" + contestnum + alphabets[i] + ".cpp")
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		defer fp.Close()
+
+		writer := bufio.NewWriter(fp)
+
+		for idx := range ret {
+			writer.WriteString(ret[idx] + "\n")
+		}
+		writer.Flush()
+
 	}
-	defer fp.Close()
 
-	writer := bufio.NewWriter(fp)
-
-	for idx := range ret {
-		writer.WriteString(ret[idx] + "\n")
-	}
-
-	writer.Flush()
 }

@@ -1,4 +1,4 @@
-module github.com/username/qi
+module atc
 
 go 1.13
 

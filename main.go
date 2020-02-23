@@ -1,10 +1,9 @@
 package main
 
 import (
-	"os"
-
+	"atc/cmd"
 	"github.com/urfave/cli"
-	"github.com/username/qi/cmd"
+	"os"
 )
 
 func main() {
@@ -17,7 +16,9 @@ func main() {
 			Name:  "abc",
 			Usage: "atcoder + mine : you get cpp files for atcoder abc",
 			Action: func(c *cli.Context) error {
-				cmd.MakeFiles()
+				contestnum := c.Args().Get(0)
+				alphabet := c.Args().Get(1)
+				cmd.MakeFiles(contestnum, alphabet)
 				return nil
 			},
 		},
