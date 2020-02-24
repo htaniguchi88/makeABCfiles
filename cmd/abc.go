@@ -9,14 +9,24 @@ import (
 )
 
 var resourcePath string = "/Users/htaniguchi/code/AtCoder/ABC/ABC000/main.cpp"
+var rootPath string = "/Users/htaniguchi/code/AtCoder/abc/"
 
-// MakeABCFiles ABCコンテストのファイルを生成します
-func MakeABCFiles(contestnum string, alphabet string, contestname string) {
+// MakeContestFiles ABCコンテストのファイルを生成します
+func MakeContestFiles(contestnum string, alphabet string, contestname string) {
 
 	inputFp := getResourceFile(resourcePath)
 	defer inputFp.Close()
 
 	ret := getStringArrayFromResourceFile(inputFp)
+
+	var outputPath string = rootPath + "ABC" + contestnum + "/"
+
+	err := os.Mkdir(outputPath, 0777)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	os.Chdir(outputPath)
 
 	generate(contestnum, alphabet, ret, contestname)
 

@@ -14,11 +14,11 @@ func main() {
 	app.Commands = []cli.Command{
 		{
 			Name:  "abc",
-			Usage: "atcoder + mine : you get cpp files for atcoder abc",
+			Usage: "you get cpp files for atcoder abc",
 			Action: func(c *cli.Context) error {
 				contestnum := c.Args().Get(0)
 				alphabet := c.Args().Get(1)
-				cmd.MakeABCFiles(contestnum, alphabet, "abc")
+				cmd.MakeContestFiles(contestnum, alphabet, "abc")
 				return nil
 			},
 		},
