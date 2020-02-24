@@ -18,7 +18,7 @@ func main() {
 			Action: func(c *cli.Context) error {
 				contestnum := c.Args().Get(0)
 				alphabet := c.Args().Get(1)
-				cmd.MakeFiles(contestnum, alphabet)
+				cmd.MakeABCFiles(contestnum, alphabet, "abc")
 				return nil
 			},
 		},

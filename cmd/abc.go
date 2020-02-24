@@ -8,6 +8,20 @@ import (
 	"os"
 )
 
+var resourcePath string = "/Users/htaniguchi/code/AtCoder/ABC/ABC000/main.cpp"
+
+// MakeABCFiles ABCコンテストのファイルを生成します
+func MakeABCFiles(contestnum string, alphabet string, contestname string) {
+
+	inputFp := getResourceFile(resourcePath)
+	defer inputFp.Close()
+
+	ret := getStringArrayFromResourceFile(inputFp)
+
+	generate(contestnum, alphabet, ret, contestname)
+
+}
+
 func getResourceFile(fn string) *os.File {
 	fp, err := os.OpenFile(fn, os.O_RDONLY, 0644)
 	if err != nil {
@@ -29,31 +43,27 @@ func getStringArrayFromResourceFile(fp *os.File) []string {
 	return ret
 }
 
-func MakeFiles(contestnum string, alphabet string) {
-
-	fp := getResourceFile("/Users/htaniguchi/code/AtCoder/ABC/ABC000/main.cpp")
-	defer fp.Close()
-
-	ret := getStringArrayFromResourceFile(fp)
+func generate(contestnum string, alphabet string, ret []string, contestname string) {
 
 	alphabets := []string{"a", "b", "c", "d", "e", "f"}
 
 	for i := 0; i < abcmap.Abcmap[alphabet]; i++ {
-
-		fp, err := os.Create("abc" + contestnum + alphabets[i] + ".cpp")
+		outputFp, err := os.Create(contestname + contestnum + alphabets[i] + ".cpp")
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
-		defer fp.Close()
+		defer outputFp.Close()
 
-		writer := bufio.NewWriter(fp)
-
-		for idx := range ret {
-			writer.WriteString(ret[idx] + "\n")
-		}
-		writer.Flush()
-
+		writeFile(outputFp, ret)
 	}
+}
 
+func writeFile(fp *os.File, ret []string) {
+	writer := bufio.NewWriter(fp)
+
+	for idx := range ret {
+		writer.WriteString(ret[idx] + "\n")
+	}
+	writer.Flush()
 }
